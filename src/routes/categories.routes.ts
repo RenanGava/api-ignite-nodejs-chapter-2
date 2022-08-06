@@ -1,34 +1,20 @@
 import { Router } from "express"
-import { CategoryRepository } from "../repositories/CategoryRepository";
-import { PostgresCategoriesRepository } from "../repositories/PostgresCategoriesRepository";
-import { CreateCategoryService } from "../services/CreateCategoryService";
+import { CategoryRepository } from "../modules/cars/repositories/CategoryRepository";
+import { createCategoryController } from "../modules/cars/useCases/createCategory";
+import { CreateCategoryUseCase } from "../modules/cars/useCases/createCategory/CreateCategoryUseCase";
 
 const categoriesRoutes = Router();
 // após trocarmos a definição do tipo par ICategoryRepository nós podemos utilizar
 // tanto o PostgresCategoriesRepository() tanto o CategoryRepository() são 
 // implementados utilizando a interface ICategoryRepository portanto tem o mesmo tipo
 // por isso funcionam da mesma maneira.
-// const  categoriesRepository = new CategoryRepository()
-const  categoriesRepository = new PostgresCategoriesRepository()
+// const  categoriesRepository = new PostgresCategoriesRepository()
+const  categoriesRepository = new CategoryRepository()
 
 
 
 categoriesRoutes.post("/", (request, response) => {
-    const { name, description } = request.body;
-
-    const createCategoryService = new CreateCategoryService(categoriesRepository)
-
-    createCategoryService.execute({ name, description })
-    
-    // sempre que retornamos uma resposta ela deve retornar
-    // o status sempre e deve tambem colocar um formato de
-    // resposta seja send() ou json() como vemos abaixo no Ex:
-
-    // qualquer uma das forma vai funcionar o send() retorna conteudo como html e o 
-    // json() retorna dados que serão utilizados na aplicação.
-    // return response.status(201).json(categories)
-    return response.status(201).send()
-
+    return createCategoryController.hanlde(request, response)
 })
 
 categoriesRoutes.get("/", (request, response) => {

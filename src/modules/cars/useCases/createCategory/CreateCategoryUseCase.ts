@@ -1,5 +1,5 @@
-import { CategoryRepository } from "../repositories/CategoryRepository";
-import { ICategoriesRepository } from "../repositories/ICategoriesRepository";
+import { CategoryRepository } from "../../repositories/CategoryRepository";
+import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
 
 interface IRequest {
     name: string;
@@ -12,7 +12,7 @@ interface IRequest {
  * [x] - acessar o repositorio
  */
 
-class CreateCategoryService {
+class CreateCategoryUseCase {
 
     // fazendo dessa forma conseguimos receber o método instanciado
     // na rota de categorias.
@@ -40,4 +40,4 @@ class CreateCategoryService {
     }
 }
 
-export { CreateCategoryService }
+export { CreateCategoryUseCase }
