@@ -1,7 +1,5 @@
 import express from "express";
-import { categoriesRoutes } from "./routes/categories.routes";
-import { specificationRoutes } from "./routes/specification.routes";
-
+import { router } from "./routes";
 const app = express()
 
 app.use(express.json())
@@ -14,7 +12,6 @@ app.use(express.json())
 // se não ele vai funcionar como se fosse a rota categories
 
 // resumindo o "/categories" será o caminho inicial da rota categories.routes.ts
-app.use("/categories", categoriesRoutes)
-app.use("/specifications", specificationRoutes)
+app.use(router)
 
 app.listen(3333, () => console.log("rodando"))

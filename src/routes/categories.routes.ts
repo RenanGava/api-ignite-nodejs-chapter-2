@@ -1,15 +1,19 @@
 import { Router } from "express"
-import { CategoryRepository } from "../modules/cars/repositories/CategoryRepository";
+import multer from "multer";
+
 import { createCategoryController } from "../modules/cars/useCases/createCategory";
-import { CreateCategoryUseCase } from "../modules/cars/useCases/createCategory/CreateCategoryUseCase";
+import { listCategoriesController } from "../modules/cars/useCases/listCategories";
+import { importCategoryController } from "../modules/cars/useCases/importCategory";
 
 const categoriesRoutes = Router();
+const upload = multer({
+    dest:"./tmp"
+})
 // após trocarmos a definição do tipo par ICategoryRepository nós podemos utilizar
 // tanto o PostgresCategoriesRepository() tanto o CategoryRepository() são 
 // implementados utilizando a interface ICategoryRepository portanto tem o mesmo tipo
 // por isso funcionam da mesma maneira.
 // const  categoriesRepository = new PostgresCategoriesRepository()
-const  categoriesRepository = new CategoryRepository()
 
 
 
@@ -18,10 +22,11 @@ categoriesRoutes.post("/", (request, response) => {
 })
 
 categoriesRoutes.get("/", (request, response) => {
-    const all = categoriesRepository.list()
+    return listCategoriesController.handle(request, response)
+})
 
-    return response.json(all)
-
+categoriesRoutes.post("/import",upload.single("file") , (request, response) => {
+    return importCategoryController.handle(request, response)
 })
 
 export { categoriesRoutes }

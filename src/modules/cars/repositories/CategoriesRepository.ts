@@ -9,11 +9,21 @@ import { ICategoriesRepository, ICreateCategoryDTO } from "./ICategoriesReposito
 
 // dessa forma o CategoryRepository vai virar um subtipo de ICategoriesRepository
 // OBS: para uma classe se tornar um subtipo ela deve utlizar o implements como abaixo.
-class CategoryRepository implements ICategoriesRepository {
+class CategoriesRepository implements ICategoriesRepository {
     private categories: Category[]
 
-    constructor() {
+    private static INSTANCE: CategoriesRepository
+
+    private constructor() {
         this.categories = []
+    }
+
+    public static getInstance():CategoriesRepository {
+        if(!CategoriesRepository.INSTANCE){
+            CategoriesRepository.INSTANCE = new CategoriesRepository()
+        }
+
+        return CategoriesRepository.INSTANCE
     }
 
     create( { description, name}: ICreateCategoryDTO ): void {
@@ -35,6 +45,7 @@ class CategoryRepository implements ICategoriesRepository {
     }
 
     list(): Category[] {
+        
         return this.categories
     }
 
@@ -46,4 +57,4 @@ class CategoryRepository implements ICategoriesRepository {
     }
 }
 
-export { CategoryRepository }
+export { CategoriesRepository }
